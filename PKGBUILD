@@ -6,6 +6,7 @@ arch=('any')
 license=('custom')
 
 source=("bg.png")
+install=helwan-wallpaper.install
 
 package() {
     install -Dm644 "$srcdir/bg.png" \
