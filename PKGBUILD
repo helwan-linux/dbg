@@ -1,4 +1,4 @@
-pkgname=helwan-wallpaper
+pkgname=hel-dbg
 pkgver=1.0
 pkgrel=1
 pkgdesc="Helwan Linux default wallpaper"
