@@ -1,0 +1,21 @@
+post_install() {
+    for user in /home/*; do
+        [ -d "$user" ] || continue
+
+        username=$(basename "$user")
+
+        uid=$(id -u "$username" 2>/dev/null) || continue
+
+        if [ -S "/run/user/$uid/bus" ]; then
+            sudo -u "$username" \
+                DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus" \
+                gsettings set org.cinnamon.desktop.background picture-uri \
+                "file:///usr/share/backgrounds/bg.png"
+
+            sudo -u "$username" \
+                DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus" \
+                gsettings set org.cinnamon.desktop.background picture-uri-dark \
+                "file:///usr/share/backgrounds/bg.png"
+        fi
+    done
+}
