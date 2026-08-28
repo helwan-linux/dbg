@@ -1,21 +1,14 @@
-post_upgrade() {
-    for uid in $(loginctl list-users --no-legend | awk '$1 >= 1000 {print $1}'); do
-        bus="/run/user/$uid/bus"
-
-        [ -S "$bus" ] || continue
-
-        runuser -u "#$uid" -- \
-            env DBUS_SESSION_BUS_ADDRESS="unix:path=$bus" \
-            gsettings set org.cinnamon.desktop.background picture-uri \
-            "file:///usr/share/backgrounds/helwan-bg.png"
-
-        runuser -u "#$uid" -- \
-            env DBUS_SESSION_BUS_ADDRESS="unix:path=$bus" \
-            gsettings set org.cinnamon.desktop.background picture-uri-dark \
-            "file:///usr/share/backgrounds/helwan-bg.png"
+post_install() {
+    for user_home in /home/*; do
+        username=$(basename "$user_home")
+        uid=$(id -u "$username" 2>/dev/null)
+        if [ "$uid" -ge 1000 ]; then
+            sudo -u "$username" DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus" \
+                gsettings set org.cinnamon.desktop.background picture-uri "file:///usr/share/backgrounds/helwan-bg.png" 2>/dev/null || true
+        fi
     done
 }
 
-post_install() {
-    post_upgrade
+post_upgrade() {
+    post_install
 }
