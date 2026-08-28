@@ -6,8 +6,8 @@ _set_wallpaper() {
     local bus_address="unix:path=/run/user/$uid/bus"
 
     if [ -S "/run/user/$uid/bus" ]; then
-        runuser -u "$user" -- env DBUS_SESSION_BUS_ADDRESS="$bus_address" gsettings set org.cinnamon.desktop.background picture-uri "file:///usr/share/backgrounds/helwan-bg.png"
-        runuser -u "$user" -- env DBUS_SESSION_BUS_ADDRESS="$bus_address" gsettings set org.cinnamon.desktop.background picture-uri-dark "file:///usr/share/backgrounds/helwan-bg.png"
+        runuser -u "$user" -- env DBUS_SESSION_BUS_ADDRESS="$bus_address" gsettings set org.cinnamon.desktop.background picture-uri "file:///usr/share/backgrounds/bg.png"
+        runuser -u "$user" -- env DBUS_SESSION_BUS_ADDRESS="$bus_address" gsettings set org.cinnamon.desktop.background picture-uri-dark "file:///usr/share/backgrounds/bg.png"
     else
         echo "تحذير: لم يتم العثور على جلسة D-Bus نشطة للمستخدم '$user' (UID: $uid). قد تحتاج إلى تسجيل الدخول مرة أخرى لتطبيق الخلفية."
     fi
